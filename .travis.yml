@@ -15,4 +15,3 @@ notifications:
 
 jdk:
   - oraclejdk7
-  - oraclejdk8
