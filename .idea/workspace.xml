@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39ed13ca-9937-4653-989f-d9d9aeafd810" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/Statla.scala" afterPath="$PROJECT_DIR$/src/main/scala/Statla.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Statistics.iws" />
@@ -52,24 +52,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider editor-type-id="MarkdownPreviewEditor">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.176471" vertical-offset="0" max-vertical-offset="576">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.03773585" vertical-offset="0" max-vertical-offset="636">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Statla.scala" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Statla.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Statla.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.14328358" vertical-offset="0" max-vertical-offset="670">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="336">
               <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".travis.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="552">
+              <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -120,11 +130,11 @@
         <option value="$PROJECT_DIR$/src/main/scala/Statistics.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/StatisticsSpec.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/SamplesSpec.scala" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/scala/StatsLike.scala" />
-        <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/src/test/scala/RandomElems.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Statla.scala" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -844,7 +854,7 @@
       <workItem from="1424359068569" duration="6768000" />
       <workItem from="1424424588556" duration="521000" />
       <workItem from="1424471355266" duration="765000" />
-      <workItem from="1424474051235" duration="733000" />
+      <workItem from="1424474051235" duration="1143000" />
     </task>
     <task id="LOCAL-00001" summary="adding travis">
       <created>1424474253361</created>
@@ -858,11 +868,29 @@
       <option name="project" value="LOCAL" />
       <updated>1424474629770</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="changing little mistake in Seq2Sample">
+      <created>1424474796147</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1424474796147</updated>
+    </task>
+    <task id="LOCAL-00004" summary="updating readme">
+      <created>1424475023130</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1424475023130</updated>
+    </task>
+    <task id="LOCAL-00005" summary="removing jdk8 from travis">
+      <created>1424475067025</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1424475067025</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54447000" />
+    <option name="totallyTimeSpent" value="54857000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="13" y="41" width="1250" height="742" extended-state="0" />
@@ -917,7 +945,10 @@
     </option>
     <MESSAGE value="adding travis" />
     <MESSAGE value="deleting comment" />
-    <option name="LAST_COMMIT_MESSAGE" value="deleting comment" />
+    <MESSAGE value="changing little mistake in Seq2Sample" />
+    <MESSAGE value="updating readme" />
+    <MESSAGE value="removing jdk8 from travis" />
+    <option name="LAST_COMMIT_MESSAGE" value="removing jdk8 from travis" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1284,14 +1315,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="576">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/RandomElems.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="133" max-vertical-offset="816">
@@ -1308,17 +1331,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.176471" vertical-offset="0" max-vertical-offset="576">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Statistics.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1848">
@@ -1329,8 +1341,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Statla.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14328358" vertical-offset="0" max-vertical-offset="670">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="336">
           <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="552">
+          <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.03773585" vertical-offset="0" max-vertical-offset="636">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
