@@ -14,8 +14,6 @@ object RandomElems {
   val confidence90 = marginErrorAt90(N) * N
   val defaultMarginError = confidence95
 
-  // Be careful, the greater the ints are, the more deviation exists, and the tests
-  // won't pass because of the margin error at 95
   lazy val ints: Elems[Int] =
     Elems(Random.nextInt(), Vector.fill(N)(Random.nextInt(100000)))
 
