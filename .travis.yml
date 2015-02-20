@@ -6,7 +6,7 @@ scala:
 
 branches:
   only:
-    master
+    - master
 
 notifications:
   email:
