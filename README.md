@@ -1,5 +1,5 @@
 <div style="float: right">
-    [![Build Status](https://travis-ci.org/jvican/statla.svg?branch=master)](https://travis-ci.org/jvican/statla)
+[![Build Status](https://travis-ci.org/jvican/statla.svg?branch=master)](https://travis-ci.org/jvican/statla)
 </div>
 Statla
 ======
