@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jvican/statla.svg?branch=master)](https://travis-ci.org/jvican/statla)
+
 Statla
 ======
 __Statla__ is an easy-to-use library for parallel computation of basic statistics like _mean_,
