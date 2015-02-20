@@ -59,7 +59,7 @@ case class Sample(N: Int, M: CentralMoments) extends SampleLike {
 }
 
 object Stats {
-  val empty = Sample(0, zeroMoments)
+  val empty: Sample = Sample(0, zeroMoments)
 
   def compute[T: Numeric](elems: Seq[T]): SampleLike =
     elems.foldLeft(empty)(_ + _)

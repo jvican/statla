@@ -15,7 +15,7 @@ object RandomElems {
   val defaultMarginError = confidence95
 
   lazy val ints: Elems[Int] =
-    Elems(Random.nextInt(), Vector.fill(N)(Random.nextInt(100000)))
+    Elems(Random.nextInt(), Vector.fill(N)(Random.nextInt(5000)))
 
   lazy val doubles: Elems[Double] =
     Elems(Random.nextDouble(), Vector.fill(N)(Random.nextDouble()))
