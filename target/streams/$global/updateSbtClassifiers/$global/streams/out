@@ -611,9 +611,9 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#test-agent;0.13.5!test-agent.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#test-interface;1.0!test-interface.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#apply-macro;0.13.5!apply-macro.jar
-[debug] :: resolution report :: resolve 5676ms :: artifacts dl 104ms
+[debug] :: resolution report :: resolve 1965ms :: artifacts dl 41ms
 [debug] 	report for statistics#statistics$sbt_2.11;1.0 default produced in /home/turing/Code/Statistics/target/resolution-cache/reports/statistics-statistics$sbt_2.11-default.xml
-[debug] 	resolve done (5676ms resolve - 104ms download)
+[debug] 	resolve done (1965ms resolve - 41ms download)
 [debug] Using inline dependencies specified in Scala.
 [debug] :: resolving dependencies :: statistics#statistics$sources_2.11;1.0
 [debug] 	confs: [default]
@@ -955,6 +955,6 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#precompiled-2_8_2;0.13.5!precompiled-2_8_2.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-sbt#precompiled-2_9_2;0.13.5!precompiled-2_9_2.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-sbt#precompiled-2_9_3;0.13.5!precompiled-2_9_3.jar(src)
-[debug] :: resolution report :: resolve 990ms :: artifacts dl 149ms
+[debug] :: resolution report :: resolve 455ms :: artifacts dl 57ms
 [debug] 	report for statistics#statistics$sources_2.11;1.0 default produced in /home/turing/Code/Statistics/target/resolution-cache/reports/statistics-statistics$sources_2.11-default.xml
-[debug] 	resolve done (990ms resolve - 149ms download)
+[debug] 	resolve done (455ms resolve - 57ms download)
