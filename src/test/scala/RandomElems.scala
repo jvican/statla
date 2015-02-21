@@ -8,22 +8,22 @@ object RandomElems {
     val updatedElems = elems :+ elemToUpdate
   }
 
-  val N = 1000
+  val N = 1000000
   val confidence99 = marginErrorAt99(N) * N
   val confidence95 = marginErrorAt95(N) * N
   val confidence90 = marginErrorAt90(N) * N
   val defaultMarginError = confidence95
 
   lazy val ints: Elems[Int] =
-    Elems(Random.nextInt(), Vector.fill(N)(Random.nextInt(Int.MaxValue)))
+    Elems(Random.nextInt(), Vector.fill(N)(Random.nextInt(10^6)))
 
   lazy val doubles: Elems[Double] =
     Elems(Random.nextDouble(), Vector.fill(N)(Random.nextDouble()))
 
   lazy val sampleInts: SampleTest[Int] =
-    (ints, Stats.parCompute(ints.elems), defaultMarginError)
+    (ints, Stats.compute(ints.elems), defaultMarginError)
 
   lazy val sampleDouble: SampleTest[Double] =
-    (doubles, Stats.parCompute(doubles.elems), defaultMarginError)
+    (doubles, Stats.compute(doubles.elems), defaultMarginError)
 
 }

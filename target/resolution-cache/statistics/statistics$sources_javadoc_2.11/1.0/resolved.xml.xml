@@ -4,7 +4,7 @@
 		module="statistics$sources_javadoc_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20150222001502"
+		publication="20150222001543"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
