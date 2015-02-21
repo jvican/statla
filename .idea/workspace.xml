@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list id="39ed13ca-9937-4653-989f-d9d9aeafd810" name="Default" comment="last modification in travis build status" />
     <list default="true" id="79be48d0-99fc-40a5-b383-cb6f0c4a8cf7" name="54e8f62155042a7e50143b26 Making stable the standard mean and variance implementation" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/scala-2.11/classes/Statistics$.class" afterPath="$PROJECT_DIR$/target/scala-2.11/classes/Statistics$.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/Statistics.scala" afterPath="$PROJECT_DIR$/src/main/scala/Statistics.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Statistics.iws" />
@@ -37,8 +35,8 @@
       <file leaf-file-name="Statistics.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Statistics.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.10746269" vertical-offset="168" max-vertical-offset="912">
-              <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.32238805" vertical-offset="168" max-vertical-offset="912">
+              <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -768,7 +766,7 @@
       <option name="issue" value="true" />
       <option name="number" value="54e8f62155042a7e50143b26" />
       <updated>1424553536511</updated>
-      <workItem from="1424553537036" duration="2340000" />
+      <workItem from="1424553537036" duration="2763000" />
     </task>
     <option name="localTasksCounter" value="12" />
     <servers>
@@ -806,7 +804,7 @@
     </servers>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62445000" />
+    <option name="totallyTimeSpent" value="62868000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -1276,8 +1274,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Statistics.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10746269" vertical-offset="168" max-vertical-offset="912">
-          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.32238805" vertical-offset="168" max-vertical-offset="912">
+          <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
           <folding />
         </state>
       </provider>
