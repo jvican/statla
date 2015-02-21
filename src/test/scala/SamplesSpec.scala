@@ -42,4 +42,14 @@ class SamplesSpec extends FlatSpec with Matchers {
     val (e, s, marginError) = t
     Statistics.variance(e.elems) should be (s.variance +- marginError)
   }
+
+  it should "print information about the computed stats" in withSampleInts { t =>
+    val (_, s, _) = t
+    println(s.stats)
+    s.stats should include ("Mean")
+    s.stats should include ("Standard deviation")
+    s.stats should include ("Variance")
+    s.stats should include ("Skewness")
+    s.stats should include ("Kurtosis")
+  }
 }

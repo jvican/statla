@@ -39,6 +39,10 @@ trait StatsLike {
   lazy val stdev: Double = Math.sqrt(variance)
   lazy val skewness: Double = Math.sqrt(N) * M._3 / Math.pow(M._2, 1.5)
   lazy val kurtosis: Double = N * M._4 / (M._2 * M._2) - 3.0
+
+  lazy val stats: String = "Descriptive statistics\n======================\n" +
+    s"Mean: $mean\nVariance: $variance\nStandard deviation: $stdev\nSkewness: $skewness\nKurtosis: $kurtosis"
+
 }
 
 trait SampleLike extends StatsLike {
