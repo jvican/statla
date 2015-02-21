@@ -8,8 +8,16 @@ object Statistics {
    * @return Arithmetic mean of value Double
    *
    */
-  def mean[T: Numeric](elems: Seq[T]): Double =
+  def mean[T: Numeric](elems: Seq[T]): Double = {
+    elems.map(_.toDouble / elems.length).sum
+  }
+
+  def mean2[T: Numeric](elems: Seq[T]): Double =
     elems.sum.toDouble / elems.length
+
+  def mean3[T: Numeric](elems: Seq[T]): Double = {
+    elems.grouped(100).map(e => e.sum.toDouble / e.length).sum
+  }
 
   def stdev[T: Numeric](elems: Seq[T]): Double = Math.sqrt(variance(elems))
 

@@ -4,7 +4,7 @@
 		module="statistics$sources_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20150221001421"
+		publication="20150221205631"
 	/>
 	<configurations>
 		<conf name="default" visibility="public" description=""/>
