@@ -7,6 +7,8 @@ implementation of the aforementioned descriptors. So, you can get statistical ca
 your collections *in the blink of an eye*. It has been designed to allow statistical computing
 of new elements incrementally, avoiding to recompute again the elements already computed.
 
+Statla uses __NIST StRD__ datasets to prove the numerically-stable property when computing the statistics.
+
 This library is based on the following papers:
 
 1.   [Computing Higher-Order Moments Online by Timothy B. Terriberry](http://people.xiph.org/~tterribe/notes/homs.html)

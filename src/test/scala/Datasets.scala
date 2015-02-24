@@ -22,7 +22,7 @@ object StRD extends DataSet {
   override val linesRegex = """\d+\s+to\s+\d+""".r
 }
 
-object Dataset {
+object Datasets {
   type LinesInFile = (Int, Int)
   
   type CertifiedValues = (Double, Double, Double)
@@ -32,12 +32,12 @@ object Dataset {
 
   def read(file: File)(implicit ds: DataSet): DataResult = {
     val source = Source.fromFile(file, "UTF-8")
-    Dataset.read(source)
+    Datasets.read(source)
   }
 
   def read(filename: String)(implicit ds: DataSet): DataResult = {
     val source = Source.fromFile(filename, "UTF-8")
-    Dataset.read(source)
+    Datasets.read(source)
   }
 
   private def read(source: Source)(implicit ds: DataSet): DataResult = {

@@ -12,15 +12,15 @@ class SamplesDataSpec extends FlatSpec with Matchers {
     val filepaths = testFolder.listFiles.toStream.filter(_.getName.endsWith(".dat"))
 
     filepaths foreach { f =>
-      Dataset.read(f) match {
+      Datasets.read(f) match {
         case Some(res) =>
           val ((rightMean, rightStdev, _), data) = res
 
           val sample = Stats.compute(data)
-          rightMean should be (sample.mean +- 0.000001)
-          rightStdev should be (sample.stdev +- 0.000001)
+          rightMean should be (sample.mean +- 0.000000001)
+          rightStdev should be (sample.stdev +- 0.000000001)
 
-        case None => fail("A data file cannot be read")
+        case None => fail("Error reading and interpreting the data and certified values")
       }
     }
   }
