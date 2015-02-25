@@ -28,6 +28,21 @@ package object StatsUtil {
 
   def marginErrorAt99(N: Int): MarginError =
     1.29 / Math.sqrt(N)
+
+  def truncate(x: Double, n: Int) = {
+    def p10(n: Int, pow: Long = 10): Long = if (n==0) pow else p10(n-1,pow*10)
+
+    n match {
+      case neg: Int if neg < 0 =>
+        val m = p10(-n).toDouble
+        Math.round(x/m) * m
+
+      case _ =>
+        val m = p10(n).toDouble
+        Math.round(x * m) / m
+    }
+  }
+
 }
 
 trait StatsLike {
