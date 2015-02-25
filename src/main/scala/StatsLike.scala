@@ -1,5 +1,7 @@
 import StatsUtil._
-import Numeric.Implicits._
+import spire.implicits._
+
+import scala.Numeric.Implicits._
 
 /**
  * This class is an extension of __Knuth__ and __Welford__ algorithm for computing standard
@@ -15,7 +17,7 @@ import Numeric.Implicits._
  * */
 
 package object StatsUtil {
-  type CentralMoments = (Double, Double, Double, Double) // M1, M2, M3, M4
+  type CentralMoments = (BigDecimal, BigDecimal, BigDecimal, BigDecimal) // M1, M2, M3, M4
   type MarginError = Double
 
   val zeroMoments: CentralMoments = (0.0, 0.0, 0.0, 0.0)
@@ -34,11 +36,11 @@ trait StatsLike {
   val N: Int
   val M: CentralMoments
 
-  lazy val mean: Double = M._1
-  lazy val variance: Double = M._2 / (N - 1)
-  lazy val stdev: Double = Math.sqrt(variance)
-  lazy val skewness: Double = Math.sqrt(N) * M._3 / Math.pow(M._2, 1.5)
-  lazy val kurtosis: Double = N * M._4 / (M._2 * M._2) - 3.0
+  lazy val mean: BigDecimal = M._1
+  lazy val variance: BigDecimal = M._2 / BigDecimal(N - 1)
+  lazy val stdev: BigDecimal = variance.sqrt()
+  lazy val skewness: BigDecimal = BigDecimal(N).sqrt() * M._3 / M._2.fpow(BigDecimal(1.5))
+  lazy val kurtosis: BigDecimal = BigDecimal(N) * M._4 / (M._2 * M._2) - BigDecimal(3.0)
 
   lazy val stats: String = "Descriptive statistics\n======================\n" +
     s"Mean: $mean\nVariance: $variance\nStandard deviation: $stdev\nSkewness: $skewness\nKurtosis: $kurtosis"
@@ -73,7 +75,8 @@ object Stats {
 
   def update[T: Numeric](n: Int, m: CentralMoments)(elem: T): (Int, CentralMoments) = {
     val N = n + 1
-    val delta = elem.toDouble() - m._1
+    val bg: BigDecimal = elem.toDouble().toBigDecimal()
+    val delta = bg - m._1
     val deltaM1 = delta / N
     val deltaM1M1 = deltaM1 * deltaM1
     val t1 = delta * deltaM1 * n
@@ -88,15 +91,17 @@ object Stats {
   }
 
   def combine(n1: Int, m1: CentralMoments)(n2: Int, m2: CentralMoments): (Int, CentralMoments) = {
-    val n = n1 + n2
+    val nbd1 = n1.toBigDecimal()
+    val nbd2 = n2.toBigDecimal()
+    val n = nbd1 + nbd2
     val nn = n * n
-    val n1n1 = n1 * n1
-    val n2n2 = n2 * n2
-    val n1n2 = n1 * n2
+    val n1n1 = nbd1 * nbd1
+    val n2n2 = nbd2 * nbd2
+    val n1n2 = nbd1 * nbd2
     val delta = m2._1 - m1._1
     val delta2 = delta * delta
 
-    n -> (
+    n.toIntExact -> (
       (n1 * m1._1 + n2 * m2._1) / n,
       m1._2 + m2._2 + (delta2 * n1n2 / n),
       m1._3 + m2._3 + (delta2 * delta) * n1n2 * (n1 - n2) / nn

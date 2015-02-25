@@ -16,9 +16,14 @@ class SamplesDataSpec extends FlatSpec with Matchers {
         case Some(res) =>
           val ((rightMean, rightStdev, _), data) = res
 
+          println(f.getName)
+          println(Statistics.mean(data))
+
           val sample = Stats.compute(data)
-          rightMean should be (sample.mean +- 0.000000001)
-          rightStdev should be (sample.stdev +- 0.000000001)
+
+          rightMean should be (sample.mean)
+
+          rightStdev should be (sample.stdev)
 
         case None => fail("Error reading and interpreting the data and certified values")
       }

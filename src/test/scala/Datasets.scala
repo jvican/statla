@@ -25,8 +25,8 @@ object StRD extends DataSet {
 object Datasets {
   type LinesInFile = (Int, Int)
   
-  type CertifiedValues = (Double, Double, Double)
-  type DataResult = Option[(CertifiedValues, Seq[Double])]
+  type CertifiedValues = (BigDecimal, BigDecimal, BigDecimal)
+  type DataResult = Option[(CertifiedValues, Seq[BigDecimal])]
 
   val RegexNumber = """[+-]?\d+(\.\d*)?""".r
 
@@ -45,7 +45,7 @@ object Datasets {
     val fileLines = source.getLines().toVector
 
     val results = linesBy(ds.CertifiedValuesKeyword, fileLines)
-    val data = linesBy(ds.DataLineKeyword, fileLines) map (_.toDouble)
+    val data = linesBy(ds.DataLineKeyword, fileLines) map (s => BigDecimal(s.toDouble))
 
     parseResultLines(results)(ds.ValueSplitter) map {
       _ -> data.toVector
@@ -56,7 +56,7 @@ object Datasets {
     (for {
       numberCol <- lines map (_.split(splitter)(1))
       number <- RegexNumber findFirstIn numberCol
-    } yield number.toDouble) match {
+    } yield BigDecimal(number.toDouble)) match {
       case Seq(mean, stdev, corr) => Some(mean, stdev, corr)
       case _ => None
     }
