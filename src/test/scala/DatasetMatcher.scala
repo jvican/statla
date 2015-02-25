@@ -25,7 +25,9 @@ trait DatasetMatcher {
       case _ => 
         MatchResult(matches = false, "", "Error while pattern-matching in ResultMatchWithCertifiedResult matcher, unexpected type")
     }
-    
-    def matchWithCertifiedValue(cert: CertifiedValue) = new ResultMatchWithCertifiedResult(cert)
   }
+
+  def matchWithCertifiedValue(cert: CertifiedValue) = new ResultMatchWithCertifiedResult(cert)
 }
+
+object DatasetMatcher extends DatasetMatcher

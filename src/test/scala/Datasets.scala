@@ -3,29 +3,31 @@ import java.io.File
 import scala.io.Source
 import scala.language.postfixOps
 import scala.util.matching.Regex
+import spire.implicits._
 
 trait DataSet {
   val HeaderLineKeyword: String
   val DataLineKeyword: String
   val CertifiedValuesKeyword: String
   val ValueSplitter: Char
-
-  val linesRegex: Regex
+  val LinesRegex: Regex
+  val ExactSymbol: String
 }
 
 object StRD extends DataSet {
   override val HeaderLineKeyword: String = "Header"
   override val DataLineKeyword: String = "Data"
   override val CertifiedValuesKeyword: String = "Certified Values"
-
   override val ValueSplitter: Char = ':'
-  override val linesRegex = """\d+\s+to\s+\d+""".r
+  override val LinesRegex = """\d+\s+to\s+\d+""".r
+  override val ExactSymbol = "exact"
 }
 
 object Datasets {
   type LinesInFile = (Int, Int)
-  
-  type CertifiedValues = (BigDecimal, BigDecimal, BigDecimal)
+
+  type CertifiedValue = (BigDecimal, Boolean)
+  type CertifiedValues = (CertifiedValue, CertifiedValue, CertifiedValue)
   type DataResult = Option[(CertifiedValues, Seq[BigDecimal])]
 
   val RegexNumber = """[+-]?\d+(\.\d*)?""".r
@@ -41,22 +43,22 @@ object Datasets {
   }
 
   private def read(source: Source)(implicit ds: DataSet): DataResult = {
-    implicit val linesRegex = ds.linesRegex
+    implicit val linesRegex = ds.LinesRegex
     val fileLines = source.getLines().toVector
 
     val results = linesBy(ds.CertifiedValuesKeyword, fileLines)
     val data = linesBy(ds.DataLineKeyword, fileLines) map (s => BigDecimal(s.toDouble))
 
-    parseResultLines(results)(ds.ValueSplitter) map {
+    parseResultLines(results)(ds.ValueSplitter, ds.ExactSymbol) map {
       _ -> data.toVector
     }
   }
 
-  private def parseResultLines(lines: Seq[String])(splitter: Char): Option[CertifiedValues] = {
+  private def parseResultLines(lines: Seq[String])(splitter: Char, exact: String): Option[CertifiedValues] = {
     (for {
       numberCol <- lines map (_.split(splitter)(1))
       number <- RegexNumber findFirstIn numberCol
-    } yield BigDecimal(number.toDouble)) match {
+    } yield (number.toDouble.toBigDecimal(), numberCol contains exact)) match {
       case Seq(mean, stdev, corr) => Some(mean, stdev, corr)
       case _ => None
     }
