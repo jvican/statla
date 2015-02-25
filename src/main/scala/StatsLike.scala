@@ -37,10 +37,10 @@ trait StatsLike {
   val M: CentralMoments
 
   lazy val mean: BigDecimal = M._1
-  lazy val variance: BigDecimal = M._2 / BigDecimal(N - 1)
+  lazy val variance: BigDecimal = M._2 / (N - 1)
   lazy val stdev: BigDecimal = variance.sqrt()
-  lazy val skewness: BigDecimal = BigDecimal(N).sqrt() * M._3 / M._2.fpow(BigDecimal(1.5))
-  lazy val kurtosis: BigDecimal = BigDecimal(N) * M._4 / (M._2 * M._2) - BigDecimal(3.0)
+  lazy val skewness: BigDecimal = BigDecimal(N).sqrt() * M._3 / M._2.fpow(1.5)
+  lazy val kurtosis: BigDecimal = N * M._4 / (M._2 * M._2) - 3.0
 
   lazy val stats: String = "Descriptive statistics\n======================\n" +
     s"Mean: $mean\nVariance: $variance\nStandard deviation: $stdev\nSkewness: $skewness\nKurtosis: $kurtosis"
