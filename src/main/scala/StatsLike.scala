@@ -18,18 +18,8 @@ import scala.Numeric.Implicits._
 
 package object StatsUtil {
   type CentralMoments = (BigDecimal, BigDecimal, BigDecimal, BigDecimal) // M1, M2, M3, M4
-  type MarginError = Double
 
   val zeroMoments: CentralMoments = (0.0, 0.0, 0.0, 0.0)
-
-  def marginErrorAt90(N: Int): MarginError =
-    0.82 / Math.sqrt(N)
-
-  def marginErrorAt95(N: Int): MarginError =
-    0.98 / Math.sqrt(N)
-
-  def marginErrorAt99(N: Int): MarginError =
-    1.29 / Math.sqrt(N)
 
   // Be careful, the order of the parameters matter, the first one is the reference to round off
   def roundToLowerScale(first: BigDecimal, second: BigDecimal): BigDecimal = {
