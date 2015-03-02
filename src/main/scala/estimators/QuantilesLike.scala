@@ -13,7 +13,7 @@ trait EWSA {
 
   val w: BigDecimal = 0.05
 
-  protected  def quantileCond[T: Numeric](elem: T): Boolean =
+  protected def quantileCond[T: Numeric](elem: T): Boolean =
     elem.toDouble().toBigDecimal() <= quantile
 
   protected def densityCond[T: Numeric](elem: T): Boolean =
@@ -22,10 +22,10 @@ trait EWSA {
   protected def updateNeighborhood[T: Numeric](elems: Seq[T]): BigDecimal = ???
   
   protected def updateQuantile[T: Numeric](elems: Seq[T]): BigDecimal =
-    quantile + (w / density ) * (p - (timesSatisfied(elems, quantileCond) / elems.length))
+    quantile + (w / density ) * (p - (timesSatisfied(elems, quantileCond[T]) / elems.length))
 
   protected def updateDensity[T: Numeric](elems: Seq[T]): BigDecimal =
-    (1 - w) * density + w / (2 * neighborhood * elems.length) * timesSatisfied(elems, densityCond)
+    (1 - w) * density + w / (2 * neighborhood * elems.length) * timesSatisfied(elems, densityCond[T])
 
 }
 
