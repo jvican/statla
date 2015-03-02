@@ -1,9 +1,9 @@
 package estimators
 
-import spire.math.max
-import scala.Numeric.Implicits._
-import spire.implicits._
 import estimators.EstimatorUtils._
+import spire.implicits._
+
+import scala.Numeric.Implicits._
 
 trait EWSA {
   val p: Double // p-quantile
@@ -53,7 +53,7 @@ case class Quantiles(ps: Seq[Quantile]) {
 
 object Quantiles {
 
-  def estimate[T: Numeric](elems: Seq[T], ps: Seq[Double]): Quantiles = {
+/*  def estimate[T: Numeric](elems: Seq[T], ps: Seq[Double]): Quantiles = {
     val sortedElems = elems.sorted
 
     def quantile(p: Double): BigDecimal =
@@ -72,7 +72,7 @@ object Quantiles {
     val iqr
 
 
-  }
+  }*/
 
 
 
