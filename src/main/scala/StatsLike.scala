@@ -3,19 +3,6 @@ import spire.implicits._
 
 import scala.Numeric.Implicits._
 
-/**
- * This class is an extension of __Knuth__ and __Welford__ algorithm for computing standard
- * deviation in __one__ pass (not the two-pass method computing mean and stdev separately). This
- * allows to compute statistics in an incremental way, avoiding to compute these functions
- * every time we add an element to our current sample. This algorithm is numerically stable,
- * avoiding the well known problem of loss of significance and inaccuracy, as well as efficient.
- * Moreover, it can be parallelized.
- *
- * 
- *
- *
- * */
-
 package object StatsUtil {
   type CentralMoments = (BigDecimal, BigDecimal, BigDecimal, BigDecimal) // M1, M2, M3, M4
 
