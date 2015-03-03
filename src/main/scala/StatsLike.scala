@@ -84,7 +84,8 @@ trait CorrelationStats {
   
   def update(elems: (BigDecimal, BigDecimal)): (StatsCore, StatsCore, Comoment) = {
     val (s, t) = elems
-    (u.update(s), v.update(t), cm + (N - 1) * (s - u.mean) * (t - v.mean) / N)
+    val updatedN = N + 2
+    (u.update(s), v.update(t), cm + (updatedN - 1) * (s - u.mean) * (t - v.mean) / updatedN)
   }
 
   def combine(cs: CorrelationStats): (StatsCore, StatsCore, Comoment) = {
@@ -93,7 +94,7 @@ trait CorrelationStats {
     val n1 = u.N + cs.u.N
     val n2 = v.N + cs.v.N
     val N = n1 + n2
-    val updated = cm + cs.cm + (n1 * n2.pow(2.0) + n2 * n1.pow(2.0)) * deltaU * deltaV / N.pow(2.0)
+    val updated = cm + cs.cm + (n1 * n2.pow(2) + n2 * n1.pow(2)) * deltaU * deltaV / N.pow(2)
     
     (u.combine(cs.u), v.combine(cs.v), updated)
   }
@@ -116,7 +117,23 @@ case class Sample(N: Int, M: CentralMoments) extends SampleLike {
   }
 }
 
-case class Corr(u: StatsLike, v: StatsLike, cm: Comoment) extends CorrelationStats
+case class Corr(u: StatsLike, v: StatsLike, cm: Comoment) extends CorrelationStats {
+  def +[T: Numeric](elems: (T, T)): Corr = {
+    val s = elems._1.toDouble().toBigDecimal()
+    val t = elems._2.toDouble().toBigDecimal()
+    val (sc1, sc2, cm) = update(s, t)
+    val (n1, m1) = sc1
+    val (n2, m2) = sc2
+    Corr(Sample(n1, m1), Sample(n2, m2), cm)
+  }
+
+  def ++(c2: CorrelationStats): Corr = {
+    val (sc1, sc2, cm) = combine(c2)
+    val (n1, m1) = sc1
+    val (n2, m2) = sc2
+    Corr(Sample(n1, m1), Sample(n2, m2), cm)
+  }
+}
 
 object Stats {
   val empty: Sample = Sample(0, zeroMoments)
@@ -135,14 +152,13 @@ object Stats {
 
     shifted match {
       case Some(elemsShifted) =>
-        elems.zip(elemsShifted).foldLeft(corrEmpty)((ce: CorrelationStats, elems: (T, T)) => {
-          val (s, t) = elems
-          corrEmpty combine Corr()
-
+        elems.zip(elemsShifted).foldLeft(corrEmpty)((ce: Corr, elems: (T, T)) => {
+          val s = elems._1.toDouble().toBigDecimal()
+          val t = elems._2.toDouble().toBigDecimal()
+          ce + (s, t)
         })
       case None => corrEmpty
     }
-
   }
 
 
