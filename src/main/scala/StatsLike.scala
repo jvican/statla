@@ -162,10 +162,4 @@ object Stats {
   def computeCorrelation[T: Numeric](elems1: Seq[T], elems2: Seq[T]): CorrelationStats =
     elems1.zip(elems2).foldLeft(corrEmpty)((ce: Corr, elems: (T, T)) => ce + (elems._1, elems._2))
 }
-object Test extends App {
-  import Stats._
-  println(computeAutocorrelation(Vector(1,2,3,4,5,6,7,8,9,10,11)).covariance)
-  println(computeCorrelation(Vector(1,2,3), Vector(1,2,3)).covariance)
-
-}
 
