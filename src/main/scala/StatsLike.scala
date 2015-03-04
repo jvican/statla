@@ -24,7 +24,9 @@ trait StatsLike {
 
   lazy val mean: BigDecimal = M._1
   lazy val variance: BigDecimal = M._2 / (N - 1)
+  lazy val biasedVariance: BigDecimal = M._2 / N
   lazy val stdev: BigDecimal = variance.sqrt()
+  lazy val biasedStdev: BigDecimal = biasedVariance.sqrt()
   lazy val skewness: BigDecimal = BigDecimal(N).sqrt() * M._3 / M._2.fpow(1.5)
   lazy val kurtosis: BigDecimal = N * M._4 / (M._2 * M._2) - 3.0
 
@@ -147,13 +149,13 @@ object Stats {
     elems.par.foldLeft(empty)(_ + _)
 
   def computeAutocorrelation[T: Numeric](elems: Seq[T]): CorrelationStats =
-    (for {
-      head <- elems.headOption
-    } yield elems.tail :+ head) match {
-      case Some(elemsShifted) =>
-        computeCorrelation[T](elems, elemsShifted)
-      case None => corrEmpty
-    }
+    computeCorrelation[T](elems.init, elems.tail)
+
+  def biasedCovariance(cv: BigDecimal, N: Int): BigDecimal =
+    cv * (N - 1) / N
+
+  def autocorrelationCoefficient[T: Numeric](elems: Seq[T], mean: BigDecimal, stdev: BigDecimal): BigDecimal =
+    biasedCovariance(cov(elems.init, elems.tail, mean, mean), elems.length - 1) / (stdev * stdev)
 
   // temporary function
   def cov[T: Numeric](elems1: Seq[T], elems2: Seq[T], uMean: BigDecimal, vMean: BigDecimal): BigDecimal =

@@ -17,11 +17,14 @@ class SamplesDataSpec extends FlatSpec with Matchers {
     dataFiles foreach { f =>
       Datasets.read(f) match {
         case Some(res) =>
-          val ((rightMean: CertifiedValue, rightStdev: CertifiedValue, _), data) = res
+          val ((correctMean: CertifiedValue, correctStdev: CertifiedValue, correctAutocorr: CertifiedValue), data) = res
 
           val sample = Stats.compute(data)
-          sample.mean should matchWithCertifiedValue (rightMean)
-          sample.stdev should matchWithCertifiedValue (rightStdev)
+          sample.mean should matchWithCertifiedValue (correctMean)
+          sample.stdev should matchWithCertifiedValue (correctStdev)
+
+          val pearson3 = Stats.autocorrelationCoefficient(data, sample.mean, sample.stdev)
+          pearson3 should matchWithCertifiedValue (correctAutocorr)
 
         case None => fail("Error reading and interpreting the data and certified values")
       }
