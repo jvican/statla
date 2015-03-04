@@ -2,8 +2,8 @@ import org.scalatest.matchers.{MatchResult, Matcher}
 
 trait DatasetMatcher {
   import Datasets.CertifiedValue
-  import StatsUtil._
-  
+  import statla.StatsUtil.roundToLowerScale
+
   class ResultMatchWithCertifiedResult(cert: CertifiedValue) extends Matcher[BigDecimal] {
     override def apply(res: BigDecimal): MatchResult = cert match {
       case (correct, true) =>

@@ -1,6 +1,6 @@
-package estimators
+package statla.estimators
 
-import estimators.EstimatorUtils._
+import statla.estimators.EstimatorUtils._
 import spire.implicits._
 
 import scala.Numeric.Implicits._

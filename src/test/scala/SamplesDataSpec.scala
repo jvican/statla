@@ -1,6 +1,7 @@
 import java.io.File
 
 import org.scalatest.{FlatSpec, Matchers}
+import statla.Statistics
 
 class SamplesDataSpec extends FlatSpec with Matchers {
   implicit val ds = StRD
@@ -19,11 +20,11 @@ class SamplesDataSpec extends FlatSpec with Matchers {
         case Some(res) =>
           val ((correctMean: CertifiedValue, correctStdev: CertifiedValue, correctAutocorr: CertifiedValue), data) = res
 
-          val sample = Stats.compute(data)
+          val sample = Statistics.compute(data)
           sample.mean should matchWithCertifiedValue (correctMean)
           sample.stdev should matchWithCertifiedValue (correctStdev)
 
-          val pearson3 = Stats.autocorrelationCoefficient(data, sample.mean, sample.stdev)
+          val pearson3 = Statistics.autocorrelationCoefficient(data, sample.mean, sample.stdev)
           pearson3 should matchWithCertifiedValue (correctAutocorr)
 
         case None => fail("Error reading and interpreting the data and certified values")

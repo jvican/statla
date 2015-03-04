@@ -38,9 +38,9 @@ Reference:     Dorsey, Ernest N. (1944). The Velocity of Light.
 
 
                                                   Certified Values
-Sample Mean                                ybar:  299.852400000000
-Sample Standard Deviation (denom. = n-1)      s:  0.0790105478190518
-Sample Autocorrelation Coefficient (lag 1) r(1):  0.535199668621283
+statla.Sample Mean                                ybar:  299.852400000000
+statla.Sample Standard Deviation (denom. = n-1)      s:  0.0790105478190518
+statla.Sample Autocorrelation Coefficient (lag 1) r(1):  0.535199668621283
 
 Number of Observations:                             100
 

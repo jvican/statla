@@ -38,9 +38,9 @@ Model:         Lower Level of Difficulty
 
 
                                                   Certified Values
-Sample Mean                                ybar:  -177.435000000000
-Sample Standard Deviation (denom. = n-1)      s:   277.332168044316
-Sample Autocorrelation Coefficient (lag 1) r(1):  -0.307304800605679
+statla.Sample Mean                                ybar:  -177.435000000000
+statla.Sample Standard Deviation (denom. = n-1)      s:   277.332168044316
+statla.Sample Autocorrelation Coefficient (lag 1) r(1):  -0.307304800605679
 
 Number of Observations:                             200
 

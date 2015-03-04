@@ -38,9 +38,9 @@ Model:         Lower Level of Difficulty
 
 
                                                   Certified Values
-Sample Mean                                ybar:  10000002 (exact)
-Sample Standard Deviation (denom. = n-1)      s:         1 (exact)
-Sample Autocorrelation Coefficient (lag 1) r(1):      -0.5 (exact)
+statla.Sample Mean                                ybar:  10000002 (exact)
+statla.Sample Standard Deviation (denom. = n-1)      s:         1 (exact)
+statla.Sample Autocorrelation Coefficient (lag 1) r(1):      -0.5 (exact)
 
 Number of Observations:                                       3
 
