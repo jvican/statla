@@ -73,30 +73,38 @@ trait StatsLike {
 }
 
 trait CorrelationStats {
-  val u: StatsLike
-  val v: StatsLike
-  val N = u.N + v.N
-  
+  val u: Sample
+  val v: Sample
+
+  val N: Int = u.N
+
   val cm: Comoment
   
   lazy val covariance: BigDecimal = cm / (N - 1)
   lazy val pearson: BigDecimal = covariance / (u.stdev * v.stdev)
   
-  def update(elems: (BigDecimal, BigDecimal)): (StatsCore, StatsCore, Comoment) = {
+  def update(elems: (BigDecimal, BigDecimal)): (Sample, Sample, Comoment) = {
     val (s, t) = elems
-    val updatedN = N + 2
-    (u.update(s), v.update(t), cm + (updatedN - 1) * (s - u.mean) * (t - v.mean) / updatedN)
+    val s1 = u + s
+    val s2 = v + t
+
+    N match {
+      case 0 =>
+        (s1, s2, 0.0)
+      case _ =>
+        (s1, s2, cm + (N * (s - u.mean) * (t - v.mean) / (N + 1)))
+    }
+
   }
 
-  def combine(cs: CorrelationStats): (StatsCore, StatsCore, Comoment) = {
-    val deltaU = cs.u.mean - u.mean
+  def combine(cs: CorrelationStats): Comoment = {
+    val deltaU = u.mean - u.mean
     val deltaV = cs.v.mean - v.mean
-    val n1 = u.N + cs.u.N
-    val n2 = v.N + cs.v.N
+    val n1 = u.N
+    val n2 = cs.u.N
     val N = n1 + n2
-    val updated = cm + cs.cm + (n1 * n2.pow(2) + n2 * n1.pow(2)) * deltaU * deltaV / N.pow(2)
-    
-    (u.combine(cs.u), v.combine(cs.v), updated)
+
+    cm + cs.cm + n1 * n2 * deltaU * deltaV / N
   }
 }
 
@@ -117,50 +125,47 @@ case class Sample(N: Int, M: CentralMoments) extends SampleLike {
   }
 }
 
-case class Corr(u: StatsLike, v: StatsLike, cm: Comoment) extends CorrelationStats {
+case class Corr(u: Sample, v: Sample, cm: Comoment) extends CorrelationStats {
   def +[T: Numeric](elems: (T, T)): Corr = {
     val s = elems._1.toDouble().toBigDecimal()
     val t = elems._2.toDouble().toBigDecimal()
-    val (sc1, sc2, cm) = update(s, t)
-    val (n1, m1) = sc1
-    val (n2, m2) = sc2
-    Corr(Sample(n1, m1), Sample(n2, m2), cm)
+    val (updatedU, updatedV, updatedCm) = update(s, t)
+    Corr(updatedU, updatedV, updatedCm)
   }
 
-  def ++(c2: CorrelationStats): Corr = {
-    val (sc1, sc2, cm) = combine(c2)
-    val (n1, m1) = sc1
-    val (n2, m2) = sc2
-    Corr(Sample(n1, m1), Sample(n2, m2), cm)
-  }
+  def ++(c2: CorrelationStats): Corr = ???
 }
 
 object Stats {
   val empty: Sample = Sample(0, zeroMoments)
   val corrEmpty: Corr = Corr(empty, empty, 0.0)
 
-  def compute[T: Numeric](elems: Seq[T]): SampleLike =
+  def compute[T: Numeric](elems: Seq[T]): Sample =
     elems.foldLeft(empty)(_ + _)
 
-  def parCompute[T: Numeric](elems: Seq[T]): SampleLike =
+  def parCompute[T: Numeric](elems: Seq[T]): Sample =
     elems.par.foldLeft(empty)(_ + _)
-  
-  def computeCorrelation[T: Numeric](elems: Seq[T]): CorrelationStats = {
-    val shifted: Option[Seq[T]] = for {
-      head <- elems.headOption
-    } yield elems.tail :+ head
 
-    shifted match {
+  def computeAutocorrelation[T: Numeric](elems: Seq[T]): CorrelationStats =
+    (for {
+      head <- elems.headOption
+    } yield elems.tail :+ head) match {
       case Some(elemsShifted) =>
-        elems.zip(elemsShifted).foldLeft(corrEmpty)((ce: Corr, elems: (T, T)) => {
-          val s = elems._1.toDouble().toBigDecimal()
-          val t = elems._2.toDouble().toBigDecimal()
-          ce + (s, t)
-        })
+        computeCorrelation[T](elems, elemsShifted)
       case None => corrEmpty
     }
-  }
 
+  // temporary function
+  def cov[T: Numeric](elems1: Seq[T], elems2: Seq[T], uMean: BigDecimal, vMean: BigDecimal): BigDecimal =
+    elems1.zip(elems2).map((es: (T, T)) => (es._1.toDouble().toBigDecimal() - uMean) * (es._2.toDouble().toBigDecimal() - vMean) / (elems1.length - 1)).reduce(_ + _)
+
+  def computeCorrelation[T: Numeric](elems1: Seq[T], elems2: Seq[T]): CorrelationStats =
+    elems1.zip(elems2).foldLeft(corrEmpty)((ce: Corr, elems: (T, T)) => ce + (elems._1, elems._2))
+}
+object Test extends App {
+  import Stats._
+  println(computeAutocorrelation(Vector(1,2,3,4,5,6,7,8,9,10,11)).covariance)
+  println(computeCorrelation(Vector(1,2,3), Vector(1,2,3)).covariance)
 
 }
 
