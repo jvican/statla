@@ -4,7 +4,7 @@ import statla.StatsUtil.{StatsCore, CentralMoments}
 import spire.implicits._
 import scala.Numeric.Implicits._
 
-trait DescriptiveStatsLike {
+trait DescriptiveStats {
   val N: Int
   val M: CentralMoments
 
@@ -35,7 +35,7 @@ trait DescriptiveStatsLike {
       )
   }
 
-  def combine(s: DescriptiveStatsLike): StatsCore = combine(s.N, s.M)
+  def combine(s: DescriptiveStats): StatsCore = combine(s.N, s.M)
 
   def combine(N2: Int, M2: CentralMoments): StatsCore = {
     val nbd1 = N.toBigDecimal()

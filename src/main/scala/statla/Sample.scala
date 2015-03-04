@@ -4,7 +4,7 @@ import statla.StatsUtil.CentralMoments
 import spire.implicits._
 import scala.Numeric.Implicits._
 
-trait SampleLike extends DescriptiveStatsLike {
+trait SampleLike extends DescriptiveStats {
   def +[T: Numeric](elem: T): SampleLike
   def ++(s2: SampleLike): SampleLike
 }

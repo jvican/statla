@@ -1,6 +1,17 @@
 package statla
 
 import statla.StatsUtil.Comoment
+import spire.implicits._
+import scala.Numeric.Implicits._
+
+trait CorrelativeStats extends DescriptiveStats {
+  val u: Sample
+  val v: Sample
+
+  val comoment: BigDecimal
+  lazy val covariance: BigDecimal = comoment / (N - 1)
+  lazy val pearson: BigDecimal = covariance / (u.stdev * v.stdev)
+}
 
 trait CorrelationStats {
   val u: Sample
@@ -36,4 +47,15 @@ trait CorrelationStats {
 
     cm + cs.cm + n1 * n2 * deltaU * deltaV / N
   }
+}
+
+case class Corr(u: Sample, v: Sample, cm: Comoment) extends CorrelationStats {
+  def +[T: Numeric](elems: (T, T)): Corr = {
+    val s = elems._1.toDouble().toBigDecimal()
+    val t = elems._2.toDouble().toBigDecimal()
+    val (updatedU, updatedV, updatedCm) = update(s, t)
+    Corr(updatedU, updatedV, updatedCm)
+  }
+
+  def ++(c2: CorrelationStats): Corr = ???
 }
