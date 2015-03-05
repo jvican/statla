@@ -1,61 +1,51 @@
 package statla
 
-import statla.StatsUtil.Comoment
 import spire.implicits._
+import statla.StatsUtil.Comoment
 import scala.Numeric.Implicits._
 
-trait CorrelativeStats extends DescriptiveStats {
-  val u: Sample
-  val v: Sample
-
-  val comoment: BigDecimal
-  lazy val covariance: BigDecimal = comoment / (N - 1)
-  lazy val pearson: BigDecimal = covariance / (u.stdev * v.stdev)
+trait CorrelativeLike {
+  val covariance: BigDecimal
+  val pearson: BigDecimal
 }
 
-trait CorrelationStats {
-  val u: Sample
-  val v: Sample
+trait CorrelativeStats {
+  require(s1.N == s2.N, "The samples you are trying to correlate does not have the same length")
+  val s1: Sample
+  val s2: Sample
 
-  val N: Int = u.N
+  val N: Int = s1.N
 
   val cm: Comoment
 
   lazy val covariance: BigDecimal = cm / (N - 1)
-  lazy val pearson: BigDecimal = covariance / (u.stdev * v.stdev)
+  lazy val pearson: BigDecimal = covariance / (s1.stdev * s2.stdev)
 
-  def update(elems: (BigDecimal, BigDecimal)): (Sample, Sample, Comoment) = {
-    val (s, t) = elems
-    val s1 = u + s
-    val s2 = v + t
-
+  def update(elems: (BigDecimal, BigDecimal)): (Sample, Sample, Comoment) =
     N match {
       case 0 =>
-        (s1, s2, 0.0)
+        (s1 + elems._1, s2 + elems._2, 0.0)
       case _ =>
-        (s1, s2, cm + (N * (s - u.mean) * (t - v.mean) / (N + 1)))
+        (s1 + elems._1, s2 + elems._2, cm + (N * (elems._1 - s1.mean) * (elems._2 - s2.mean) / (N + 1)))
     }
 
-  }
-
-  def combine(cs: CorrelationStats): Comoment = {
-    val deltaU = u.mean - u.mean
-    val deltaV = cs.v.mean - v.mean
-    val n1 = u.N
-    val n2 = cs.u.N
+  def combine(cs: CorrelativeStats): Comoment = {
+    val deltaU = s1.mean - s1.mean
+    val deltaV = cs.s2.mean - s2.mean
+    val n1 = s1.N
+    val n2 = cs.s1.N
     val N = n1 + n2
 
     cm + cs.cm + n1 * n2 * deltaU * deltaV / N
   }
 }
 
-case class Corr(u: Sample, v: Sample, cm: Comoment) extends CorrelationStats {
-  def +[T: Numeric](elems: (T, T)): Corr = {
-    val s = elems._1.toDouble().toBigDecimal()
-    val t = elems._2.toDouble().toBigDecimal()
-    val (updatedU, updatedV, updatedCm) = update(s, t)
-    Corr(updatedU, updatedV, updatedCm)
+case class Correlation(s1: Sample, s2: Sample, cm: Comoment) extends CorrelativeStats with PairIncremental[CorrelativeStats] {
+  override def +[T: Numeric](elems: (T, T)): Correlation = {
+    val (s, t) = elems
+    val (updatedS1, updatedS2, updatedCm) = update((s.toDouble().toBigDecimal(), t.toDouble().toBigDecimal()))
+    Correlation(updatedS1, updatedS2, updatedCm)
   }
 
-  def ++(c2: CorrelationStats): Corr = ???
+  override def ++(s2: CorrelativeStats): Correlation = ???
 }

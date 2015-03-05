@@ -1,10 +1,19 @@
 package statla
 
-import statla.StatsUtil.{StatsCore, CentralMoments}
 import spire.implicits._
-import scala.Numeric.Implicits._
+import statla.StatsUtil.{StatsCore, CentralMoments}
 
-trait DescriptiveStats {
+trait DescriptiveLike {
+  val mean: BigDecimal
+  val variance: BigDecimal
+  val biasedVariance: BigDecimal
+  val stdev: BigDecimal
+  val biasedStdev: BigDecimal
+  val skewness: BigDecimal
+  val kurtosis: BigDecimal
+}
+
+trait DescriptiveStats extends DescriptiveLike {
   val N: Int
   val M: CentralMoments
 
@@ -19,7 +28,7 @@ trait DescriptiveStats {
   lazy val stats: String = "Descriptive statistics\n======================\n" +
     s"Mean: $mean\nVariance: $variance\nStandard deviation: $stdev\nSkewness: $skewness\nKurtosis: $kurtosis"
 
-  def update(elem: BigDecimal): StatsCore = {
+  protected def update(elem: BigDecimal): StatsCore = {
     val updatedN = N + 1
     val delta = elem - M._1
     val deltaM1 = delta / updatedN
@@ -35,20 +44,19 @@ trait DescriptiveStats {
       )
   }
 
-  def combine(s: DescriptiveStats): StatsCore = combine(s.N, s.M)
+  protected def combine(s: DescriptiveStats): StatsCore = combine(s.N, s.M)
 
-  def combine(N2: Int, M2: CentralMoments): StatsCore = {
-    val nbd1 = N.toBigDecimal()
-    val nbd2 = N2.toBigDecimal()
-    val n = nbd1 + nbd2
+  // modify this, change to int
+  protected def combine(N2: Int, M2: CentralMoments): StatsCore = {
+    val n = N + N2
     val nn = n * n
-    val n1n1 = nbd1 * nbd1
-    val n2n2 = nbd2 * nbd2
-    val n1n2 = nbd1 * nbd2
+    val n1n1 = N * N
+    val n2n2 = N2 * N2
+    val n1n2 = N * N2
     val delta = M2._1 - M._1
     val delta2 = delta * delta
 
-    n.toIntExact -> (
+    n -> (
       (N * M._1 + N2 * M2._1) / n,
       M._2 + M2._2 + (delta2 * n1n2 / n),
       M._3 + M2._3 + (delta2 * delta) * n1n2 * (N - N2) / nn
