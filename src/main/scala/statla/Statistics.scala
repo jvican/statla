@@ -14,9 +14,6 @@ object Statistics {
   def parCompute[T: Numeric](elems: Seq[T]): Sample =
     elems.par.foldLeft(empty)(_ + _)
 
-  def computeAutocorrelation[T: Numeric](elems: Seq[T]): CorrelativeStats =
-    computeCorrelation[T](elems.init, elems.tail)
-
   def biasedCovariance(cv: BigDecimal, N: Int): BigDecimal =
     cv * (N - 1) / N
 
@@ -29,4 +26,10 @@ object Statistics {
 
   def computeCorrelation[T: Numeric](elems1: Seq[T], elems2: Seq[T]): Correlation =
     elems1.zip(elems2).foldLeft(corrEmpty)(_ + _)
+
+  def computeAutocorrelation[T: Numeric](elems: Seq[T]): Autocorrelation =
+    elems.init.zip(elems.tail).foldLeft(new Autocorrelation(empty, 0.0, 0.0))(_ + _)
+
+  def autocorrelateByOne[T: Numeric](elems: Seq[T]): BigDecimal =
+    computeAutocorrelation(elems).coefficient
 }

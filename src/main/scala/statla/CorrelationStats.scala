@@ -1,7 +1,7 @@
 package statla
 
-import spire.implicits._
 import statla.StatsUtil.Comoment
+import spire.implicits._
 import scala.Numeric.Implicits._
 
 trait CorrelativeLike {
@@ -10,7 +10,7 @@ trait CorrelativeLike {
 }
 
 trait CorrelativeStats {
-  require(s1.N == s2.N, "The samples you are trying to correlate does not have the same length")
+  //require(s1.N == s2.N, "The samples you are trying to correlate does not have the same length")
   val s1: Sample
   val s2: Sample
 
@@ -42,10 +42,30 @@ trait CorrelativeStats {
 
 case class Correlation(s1: Sample, s2: Sample, cm: Comoment) extends CorrelativeStats with PairIncremental[CorrelativeStats] {
   override def +[T: Numeric](elems: (T, T)): Correlation = {
-    val (s, t) = elems
-    val (updatedS1, updatedS2, updatedCm) = update((s.toDouble().toBigDecimal(), t.toDouble().toBigDecimal()))
+    val (s, t) = (elems._1.toDouble().toBigDecimal(), elems._2.toDouble().toBigDecimal())
+    val (updatedS1, updatedS2, updatedCm) = update((s, t))
     Correlation(updatedS1, updatedS2, updatedCm)
   }
 
   override def ++(s2: CorrelativeStats): Correlation = ???
+}
+
+trait AutocorrelationLike {
+  val coefficient: BigDecimal
+}
+
+class Autocorrelation(s: Sample, cm: Comoment, lastAdded: BigDecimal) extends AutocorrelationLike with PairIncremental[AutocorrelationLike] {
+  lazy val coefficient = {cm / (s).M._2;}
+
+  override def +[T: Numeric](elems: (T, T)): Autocorrelation = {
+    val updatedComoment: Comoment = s.N match {
+        case 0 => 0.0
+        case _ => cm + (s.N * (elems._1.toDouble().toBigDecimal() - s.mean) * (elems._2.toDouble().toBigDecimal() - s.mean) / (s.N + 1))
+    }
+
+    new Autocorrelation(s + elems._1, updatedComoment, elems._2.toDouble().toBigDecimal())
+  }
+
+  override def ++(s2: AutocorrelationLike): Autocorrelation = ???
+
 }
