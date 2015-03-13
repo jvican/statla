@@ -1,11 +1,13 @@
 package statla
 
-trait Incremental[S] {
-  def +[T: Numeric](elem: T): S
-  def ++(s2: S): S
+import scala.language.higherKinds
+
+trait Incremental[S[_], T] {
+  def +[V : Numeric](elem: V): S[T]
+  def ++(s2: S[T]): S[T]
 }
 
-trait PairIncremental[S] {
-  def +[T: Numeric](elems: (T, T)): S
-  def ++(s2: S): S
+trait PairIncremental[S[_], T] {
+  def +[V : Numeric](elems: (V, V)): S[T]
+  def ++(s2: S[T]): S[T]
 }

@@ -1,7 +1,7 @@
 import java.io.File
 
 import org.scalatest.{FlatSpec, Matchers}
-import statla.Statistics
+import statla.Utils
 
 class SamplesDataSpec extends FlatSpec with Matchers {
   implicit val ds = StRD
@@ -11,6 +11,7 @@ class SamplesDataSpec extends FlatSpec with Matchers {
   it should "pass all the datasets" in {
     import DatasetMatcher._
     import Datasets.CertifiedValue
+    import statla.Implicits.highPrecision
 
     val testFolder = new File("src/test/datasets/")
     val dataFiles = testFolder.listFiles.toStream.filter(_.getName.endsWith(".dat"))
@@ -20,13 +21,13 @@ class SamplesDataSpec extends FlatSpec with Matchers {
         case Some(res) =>
           val ((correctMean: CertifiedValue, correctStdev: CertifiedValue, correctAutocorr: CertifiedValue), data) = res
 
-          val sample = Statistics.compute(data)
+          val sample = Utils.compute(data)
           sample.mean should matchWithCertifiedValue (correctMean)
           sample.stdev should matchWithCertifiedValue (correctStdev)
 
-          val pearson3 = Statistics.autocorrelationCoefficient(data, sample.mean, sample.stdev)
-          val autocorr = Statistics.autocorrelateByOne(data)
-          autocorr should matchWithCertifiedValue (correctAutocorr)
+          val pearson = Utils.autocorrelationCoefficient(data, sample.mean, sample.stdev)
+          //val autocorr = Utils.autocorrelateByOne(data)
+          pearson should matchWithCertifiedValue (correctAutocorr)
 
         case None => fail("Error reading and interpreting the data and certified values")
       }

@@ -1,55 +1,59 @@
 package statla
 
-import statla.StatsUtil.Comoment
 import spire.implicits._
-import scala.Numeric.Implicits._
+import spire.math._
+import Utils.numeric2Fractional
 
-trait CorrelativeLike {
-  val covariance: BigDecimal
-  val pearson: BigDecimal
+trait CorrelativeLike[T] extends PrintableStatistics {
+  val covariance: T
+  val pearson: T
 }
 
-trait CorrelativeStats {
-  //require(s1.N == s2.N, "The samples you are trying to correlate does not have the same length")
-  val s1: Sample
-  val s2: Sample
+abstract class CorrelativeStats[T : Fractional] extends CorrelativeLike[T] {
+  require(s1.n == s2.n, "The samples you are trying to correlate does not have the same length")
 
-  val N: Int = s1.N
+  val comoment: T
 
-  val cm: Comoment
+  val s1: Sample[T]
+  val s2: Sample[T]
 
-  lazy val covariance: BigDecimal = cm / (N - 1)
-  lazy val pearson: BigDecimal = covariance / (s1.stdev * s2.stdev)
+  val N: Int = s1.n
 
-  def update(elems: (BigDecimal, BigDecimal)): (Sample, Sample, Comoment) =
+  lazy val covariance = comoment / (N - 1)
+  lazy val pearson = covariance / (s1.stdev * s2.stdev)
+
+  val title = "Correlative Statistics of two samples"
+  override lazy val stats = title + "\n" + delimiterOf(title) + "\n" + s"Covariance: $covariance\nPearson: $pearson" +
+    "1st Sample: \n" + s1.stats + "2nd Sample: \n" + s2.stats
+
+  def update(elems: (T, T)): (Sample[T], Sample[T], T) =
     N match {
       case 0 =>
-        (s1 + elems._1, s2 + elems._2, 0.0)
+        (s1 + elems._1, s2 + elems._2, Fractional[T].zero)
       case _ =>
-        (s1 + elems._1, s2 + elems._2, cm + (N * (elems._1 - s1.mean) * (elems._2 - s2.mean) / (N + 1)))
+        (s1 + elems._1, s2 + elems._2, comoment + (N * (elems._1 - s1.mean) * (elems._2 - s2.mean) / (N + 1)))
     }
 
-  def combine(cs: CorrelativeStats): Comoment = {
+  def combine(other: CorrelativeStats[T]): T = {
     val deltaU = s1.mean - s1.mean
-    val deltaV = cs.s2.mean - s2.mean
-    val n1 = s1.N
-    val n2 = cs.s1.N
+    val deltaV = other.s2.mean - s2.mean
+    val n1 = s1.n
+    val n2 = other.s1.n
     val N = n1 + n2
 
-    cm + cs.cm + n1 * n2 * deltaU * deltaV / N
+    comoment + other.comoment + n1 * n2 * deltaU * deltaV / N
   }
 }
 
-case class Correlation(s1: Sample, s2: Sample, cm: Comoment) extends CorrelativeStats with PairIncremental[CorrelativeStats] {
-  override def +[T: Numeric](elems: (T, T)): Correlation = {
-    val (s, t) = (elems._1.toDouble().toBigDecimal(), elems._2.toDouble().toBigDecimal())
-    val (updatedS1, updatedS2, updatedCm) = update((s, t))
-    Correlation(updatedS1, updatedS2, updatedCm)
+class Correlation[T](val comoment: T, val s1: Sample[T], val s2: Sample[T]) extends CorrelativeStats[T] with PairIncremental[CorrelativeStats[T], T] {
+  override def +[V : scala.Numeric](elems: (V, V)): Correlation[T] = {
+    val (updatedS1, updatedS2, updatedCm) = update((numeric2Fractional(elems._1), numeric2Fractional(elems._2)))
+    new Correlation(updatedCm, updatedS1, updatedS2)
   }
 
-  override def ++(s2: CorrelativeStats): Correlation = ???
+  override def ++(s2: CorrelativeStats[T]): Correlation[T] = ???
 }
-
+/*
 trait AutocorrelationLike {
   val coefficient: BigDecimal
 }
@@ -68,4 +72,4 @@ class Autocorrelation(s: Sample, cm: Comoment, lastAdded: BigDecimal) extends Au
 
   override def ++(s2: AutocorrelationLike): Autocorrelation = ???
 
-}
+}*/
