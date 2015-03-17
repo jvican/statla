@@ -46,7 +46,7 @@ abstract class CorrelativeStats[F : Fractional] extends CorrelativeLike[F] {
 }
 
 class Correlation[F : Fractional](val comoment: F, val s1: Sample[F], val s2: Sample[F]) extends CorrelativeStats[F] with PairIncremental[CorrelativeStats, F] {
-  private def add(elems: (F, F)): Correlation[F] = {
+  private[statla] def add(elems: (F, F)): Correlation[F] = {
     val (updatedS1, updatedS2, updatedCm) = update(elems)
     new Correlation(updatedCm, updatedS1, updatedS2)
   }

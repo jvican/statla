@@ -5,7 +5,6 @@ import spire.implicits._
 
 package object Util {
   type CentralMoments[T] = (T, T, T, T)
-  type Comoment = BigDecimal
 
   def zero[T : Fractional] = Fractional[T].zero
   def zeroMoments[T : Fractional] = (Fractional[T].zero, Fractional[T].zero, Fractional[T].zero, Fractional[T].zero)

@@ -52,6 +52,7 @@ case class Quantiles(ps: Seq[Quantile]) {
 }
 
 object Quantiles {
+  // TODO Implement EWSA quantiles estimators
 
 /*  def estimate[T: Numeric](elems: Seq[T], ps: Seq[Double]): Quantiles = {
     val sortedElems = elems.sorted

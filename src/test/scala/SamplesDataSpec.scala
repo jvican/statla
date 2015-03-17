@@ -24,6 +24,7 @@ class SamplesDataSpec extends FlatSpec with Matchers {
           sample.mean should matchWithCertifiedValue (correctMean)
           sample.stdev should matchWithCertifiedValue (correctStdev)
 
+          // TODO AUTOCORRELATION
           //val pearson = Utils.autocorrelationCoefficient(data, sample.mean, sample.stdev)
           //val autocorr = Utils.autocorrelateByOne(data)
           //pearson should matchWithCertifiedValue (correctAutocorr)

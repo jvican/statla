@@ -1,7 +1,8 @@
 package statla
 
-import scala.language.implicitConversions
 import spire.math._
+
+import scala.language.implicitConversions
 
 package object Implicits {
   implicit def Seq2Sample[T : Fractional, V : Numeric](elems: Seq[V]): Sample[T] = elems.length match {
