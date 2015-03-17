@@ -35,8 +35,8 @@ import scala.util.Random
 val v = Vector.fill[Int](100)(Math.abs(Random.nextInt()))
 
 // Computing descriptive statistics
-println(Util.compute[Double, Int](v).stats) // Fast
-println(Util.compute[BigDecimal, Int](v).stats) // High precision
+println(compute[Double, Int](v).stats) // Fast
+println(compute[BigDecimal, Int](v).stats) // High precision
 ```
 
 The future is uncertain, but...
