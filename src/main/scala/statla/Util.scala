@@ -1,7 +1,6 @@
 package statla
 
 import spire.math.{Fractional, Numeric}
-import spire.implicits._
 
 package object Util {
   type CentralMoments[T] = (T, T, T, T)
