@@ -11,7 +11,6 @@ class SamplesDataSpec extends FlatSpec with Matchers {
   it should "pass all the datasets" in {
     import DatasetMatcher._
     import Datasets.CertifiedValue
-    import statla.Implicits.highPrecision
 
     val testFolder = new File("src/test/datasets/")
     val dataFiles = testFolder.listFiles.toStream.filter(_.getName.endsWith(".dat"))
@@ -21,7 +20,7 @@ class SamplesDataSpec extends FlatSpec with Matchers {
         case Some(res) =>
           val ((correctMean: CertifiedValue, correctStdev: CertifiedValue, correctAutocorr: CertifiedValue), data) = res
 
-          val sample = Utils.compute(data)
+          val sample = Util.compute[BigDecimal, BigDecimal](data)
           sample.mean should matchWithCertifiedValue (correctMean)
           sample.stdev should matchWithCertifiedValue (correctStdev)
 

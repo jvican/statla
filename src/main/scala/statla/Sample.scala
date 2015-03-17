@@ -4,7 +4,7 @@ import spire.math.{Fractional, Numeric}
 import statla.Util.{CentralMoments, numeric2Fractional}
 
 class Sample[F : Fractional](val n: Int, val m: CentralMoments[F]) extends DescriptiveStats[F] with Incremental[DescriptiveStats, F] {
-  protected def add(elem: F): Sample[F] = {
+  private[statla] def add(elem: F): Sample[F] = {
     val updated = update(elem)
     new Sample[F](updated._1, updated._2)
   }

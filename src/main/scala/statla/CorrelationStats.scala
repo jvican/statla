@@ -29,9 +29,9 @@ abstract class CorrelativeStats[F : Fractional] extends CorrelativeLike[F] {
   def update(elems: (F, F)): (Sample[F], Sample[F], F) =
     N match {
       case 0 =>
-        (s1 + elems._1, s2 + elems._2, Fractional[F].zero)
+        (s1 add elems._1, s2 add elems._2, Fractional[F].zero)
       case _ =>
-        (s1 + elems._1, s2 + elems._2, comoment + (N * (elems._1 - s1.mean) * (elems._2 - s2.mean) / (N + 1)))
+        (s1 add elems._1, s2 add elems._2, comoment + (N * (elems._1 - s1.mean) * (elems._2 - s2.mean) / (N + 1)))
     }
 
   def combine(other: CorrelativeStats[F]): F = {
@@ -45,7 +45,7 @@ abstract class CorrelativeStats[F : Fractional] extends CorrelativeLike[F] {
   }
 }
 
-class Correlation[F : Fractional](val comoment: F, val s1: Sample[F], val s2: Sample[F]) extends CorrelativeStats[F] with PairIncremental[CorrelativeStats[F], F] {
+class Correlation[F : Fractional](val comoment: F, val s1: Sample[F], val s2: Sample[F]) extends CorrelativeStats[F] with PairIncremental[CorrelativeStats, F] {
   private def add(elems: (F, F)): Correlation[F] = {
     val (updatedS1, updatedS2, updatedCm) = update(elems)
     new Correlation(updatedCm, updatedS1, updatedS2)
