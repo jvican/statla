@@ -13,7 +13,7 @@ well as Spire, it uses specialization.
 
 In order to strike a balance between __fast__ and __precise__ computations, users can choose the types of the result and the collection
 from which statistics are derived. Therefore, if you want precision over speed you can use BigDecimal instead of Double. The only limitation is
-that types must have an implicit __Fractional[T]__.
+that types must have an implicit __Fractional[T]__ (more information can be found [here](https://github.com/non/spire/blob/master/GUIDE.md)).
 
 To prove its correctness, Statla uses __NIST StRD__ datasets, ensuring the numerically-stable property of the algorithms used.
 
@@ -43,4 +43,4 @@ The future is uncertain, but...
 ===============================
 
 Currently, this library is under development. Nevertheless, my goal is to implement incremental quantile estimators
-and more cool stuff. If you want to contribute, please contact me here or send me an email to _jorgevc @ fastmail dot es_.
+and more cool stuff. If you want to contribute, please contact me here or send me an email to _jorgevc at fastmail dot es_.
