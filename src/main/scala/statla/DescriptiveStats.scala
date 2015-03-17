@@ -2,7 +2,7 @@ package statla
 
 import spire.implicits._
 import spire.math._
-import statla.Utils.CentralMoments
+import statla.Util.CentralMoments
 
 trait DescriptiveLike[T] extends PrintableStatistics {
   val mean: T
@@ -12,8 +12,8 @@ trait DescriptiveLike[T] extends PrintableStatistics {
   val kurtosis: T
 }
 
-abstract class DescriptiveStats[@specialized(Float, Double) T : Fractional] extends DescriptiveLike[T] {
-  val m: CentralMoments[T]
+abstract class DescriptiveStats[@specialized(Float, Double) F : Fractional] extends DescriptiveLike[F] {
+  val m: CentralMoments[F]
   val n: Int
   
   lazy val mean = m._1
@@ -26,7 +26,7 @@ abstract class DescriptiveStats[@specialized(Float, Double) T : Fractional] exte
   lazy val stats: String = title + "\n" + delimiterOf(title) + "\n" +
     s"Mean: $mean\nVariance: $variance\nStandard deviation: $stdev\nSkewness: $skewness\nKurtosis: $kurtosis\n"
   
-  protected def update(elem: T): (Int, CentralMoments[T]) = {
+  def update(elem: F): (Int, CentralMoments[F]) = {
     val updatedN = n + 1
     val delta = elem - m._1
     val deltaM1 = delta / updatedN
@@ -42,9 +42,9 @@ abstract class DescriptiveStats[@specialized(Float, Double) T : Fractional] exte
       )
   }
 
-  protected def combine(other: DescriptiveStats): (Int, CentralMoments[T]) = combine(other.n, other.m)
+  def combine(other: DescriptiveStats[F]): (Int, CentralMoments[F]) = combine(other.n, other.m)
 
-  protected def combine(n2: Int, m2: CentralMoments[T]): (Int, CentralMoments[T]) = {
+  def combine(n2: Int, m2: CentralMoments[F]): (Int, CentralMoments[F]) = {
     val N = n + n2
     val NN = N * N
     val n1n1 = n * n

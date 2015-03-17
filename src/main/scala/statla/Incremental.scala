@@ -1,6 +1,7 @@
 package statla
 
 import scala.language.higherKinds
+import spire.math.Numeric
 
 trait Incremental[S[_], T] {
   def +[V : Numeric](elem: V): S[T]

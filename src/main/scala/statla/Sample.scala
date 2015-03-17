@@ -1,14 +1,18 @@
 package statla
 
-import statla.Utils.{CentralMoments, numeric2Fractional}
+import spire.math.{Fractional, Numeric}
+import statla.Util.{CentralMoments, numeric2Fractional}
 
-class Sample[T](val n: Int, val m: CentralMoments[T]) extends DescriptiveStats[T] with Incremental[DescriptiveStats, T] {
-  override def +[V: scala.Numeric](elem: V): Sample[T] = {
-    val updated = update(numeric2Fractional(elem))
-    new Sample[T](updated._1, updated._2)
+class Sample[F : Fractional](val n: Int, val m: CentralMoments[F]) extends DescriptiveStats[F] with Incremental[DescriptiveStats, F] {
+  protected def add(elem: F): Sample[F] = {
+    val updated = update(elem)
+    new Sample[F](updated._1, updated._2)
   }
 
-  override def ++(s2: DescriptiveStats[T]): Sample[T] = {
+  override def +[V : Numeric](elem: V): Sample[F] =
+    add(numeric2Fractional(elem))
+
+  override def ++(s2: DescriptiveStats[F]): Sample[F] = {
     val updated = combine(s2.n, s2.m)
     new Sample(updated._1, updated._2)
   }
