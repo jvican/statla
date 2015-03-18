@@ -8,7 +8,7 @@ _variance_, _standard deviation_, _skewness_, _kurtosis_, _correlation_ and _pea
 __descriptive__ and __correlative__ statistics of any numeric collection in a fast and reliable way.
 
 Statla computes statistics incrementally, avoiding redundancy in computations while adding new elements to a collection.
-It is built on top of __Spire__ to use rich type classes and missing implementation of sqrt and others operations in well-known numeric classes like BigDecimal. As well as Spire, it uses specialization.
+It is built on top of __Spire__ to use rich type classes and missing implementation of sqrt and others operations in well-known numeric classes like BigDecimal. As Spire does, it uses specialization.
 
 In order to strike a balance between __fast__ and __precise__ computations, users can choose the types of the result and the collection
 from which statistics are derived. Therefore, if you want precision over speed you can use BigDecimal instead of Double. The only limitation is
